@@ -178,5 +178,17 @@ mod tests {
         assert_eq!(map, [[true, false, true],
             [false, false, false],
             [true, true, true]]);
+        map = generate(map);
+        assert_eq!(map, [[false, false, false],
+            [true, false, true],
+            [false, true, false]]);
+        map = generate(map);
+        assert_eq!(map, [[false, false, false],
+            [false, true, false],
+            [false, true, false]]);
+        map = generate(map);
+        assert_eq!(map, [[false, false, false],
+            [false, false, false],
+            [false, false, false]]);
     }
 }
