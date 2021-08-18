@@ -20,8 +20,8 @@ fn change_value(mut map:Vec<Vec<bool>>, x:u32, y:u32, value:bool) -> Vec<Vec<boo
     map
 }
 
-fn count_neibor(map:Vec<Vec<bool>>, x:i32, y:i32) -> i32 {
-    let possibilitys: [(i32, i32); 8] = [
+fn count_neighbor(map:Vec<Vec<bool>>, x:i32, y:i32) -> i32 {
+    let possibilities: [(i32, i32); 8] = [
         (x - 1,y - 1), ( x, y - 1),( x + 1 ,y - 1),
         (x - 1,y), (x+1,y),
         (x -1 ,y + 1), (x, y + 1),( x + 1,y + 1),];
@@ -30,7 +30,7 @@ fn count_neibor(map:Vec<Vec<bool>>, x:i32, y:i32) -> i32 {
     let mut count: i32 = 0;
     let map_size:usize = map.len();
 
-    for possibility in possibilitys.iter() {
+    for possibility in possibilities.iter() {
         count = is_good(map_size, possibility.0, possibility.1, count as u32, map.clone()) as i32;
     }
     count
@@ -49,8 +49,8 @@ fn generate(map:Vec<Vec<bool>>) -> Vec<Vec<bool>> {
     let mut new_map = init_map(map.len() as u32);
     for y in 0..map.len() {
         for x in 0..map.len() {
-            let nb_neibor = count_neibor(map.clone(), x as i32, y as i32);
-            new_map = rules(nb_neibor as u32, new_map, x as u32, y as u32, map[y][x]);
+            let nb_neighbor = count_neighbor(map.clone(), x as i32, y as i32);
+            new_map = rules(nb_neighbor as u32, new_map, x as u32, y as u32, map[y][x]);
         }
     }
     new_map
@@ -76,7 +76,7 @@ fn rules(nb_count:u32, mut new_map:Vec<Vec<bool>>, x:u32, y:u32, cel_value:bool)
 mod tests {
     use crate::{init_map, generate};
     use crate::change_value;
-    use crate::count_neibor;
+    use crate::count_neighbor;
 
     #[test]
     fn init_map_test() {
@@ -98,7 +98,7 @@ mod tests {
         ])
     }
     #[test]
-    fn count_neibor_test() {
+    fn count_neighbor_test() {
         let mut  map = init_map(3);
         map = change_value(map, 1,0, true);
         map = change_value(map, 1,1, true);
@@ -108,7 +108,7 @@ mod tests {
             [false,true,false],
             [false,true,false]
         ]);
-        assert_eq!(count_neibor(map, 1, 1), 2)
+        assert_eq!(count_neighbor(map, 1, 1), 2)
     }
     #[test]
     fn rule_underpop() {
